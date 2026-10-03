@@ -2,8 +2,13 @@
 
 Two small native Rust command-line programs using the Open-Meteo API:
 
-- `weather-now` — current Canberra temperature and wind speed
-- `weather-7days` — seven-day Canberra forecast
+- `weather_now` — current Canberra temperature and wind speed
+- `weather7days` — seven-day Canberra forecast
+
+And a MCP server using Open-Meteo API to expose two tools
+- 'get_7day_weather' - seven-day forecast by giving the name of city
+- 'lookup_location' - get latitude and longtitue of the city by givng the name of the city
+
 
 ## Requirements
 
@@ -31,15 +36,20 @@ cargo build --release
 The native executables will be:
 
 ```text
-target/release/weather-now
-target/release/weather-7days
+target/release/weather_now
+target/release/weather7days
+target/release/global_weather_mcp
 ```
 
 Run them:
 
 ```bash
-./target/release/weather-now
-./target/release/weather-7days
+./target/release/weather_now
+./target/release/weather7days
+echo '{"jsonrpc": "2.0", "method": "tools/list", "params": {}, "id": 1}' | ./target/release/global_weather_mcp 
+echo '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "get_7day_weather", "arguments": {"name": "Canberra"}}, "id": 2}' | ./target/release/global_weather_mcp 
+echo '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "lookup_location", "arguments": {"name": "Canberra"}}, "id": 2}' | ./target/release/global_weather_mcp
+
 ```
 
 No Python, `uv`, virtual environment, or Rust runtime is required on the target machine after compilation.
@@ -57,8 +67,8 @@ cp target/release/weather-7days ~/bin/
 Then, if `~/bin` is in your PATH:
 
 ```bash
-weather-now
-weather-7days
+weather_now
+weather7days
 ```
 
 ## Sample current-weather output

@@ -3,7 +3,17 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
+pub mod geocoding;
+pub mod mcp;
+
+pub use geocoding::{
+    format_7day_forecast, get_7day_weather_for_coords, lookup_location, GeocodingLocation,
+    GeocodingResponse, DEFAULT_GEOCODING_BASE_URL, DEFAULT_WEATHER_BASE_URL,
+};
+pub use mcp::McpServer;
+
 pub const LAT: f64 = -35.2835;
+
 pub const LON: f64 = 149.1281;
 pub const TIMEZONE: &str = "Australia/Sydney";
 
